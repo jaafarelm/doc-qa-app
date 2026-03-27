@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>doc-qa-app v0.2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.5;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      width: 180px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .box {
+      border: 1px solid #ccc;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .error {
+      color: darkred;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>doc-qa-app v0.2</h1>
+  <p>Upload a document and ask a question about it.</p>
+
+  <form action="/" method="post" enctype="multipart/form-data">
+    <label for="document">Document (PDF or text)</label>
+    <input type="file" id="document" name="document" required />
+
+    <label for="question">Question</label>
+    <textarea id="question" name="question" required>{{ question }}</textarea>
+
+    <button type="submit">Ask Document</button>
+  </form>
+
+  {% if error %}
+    <div class="box error">{{ error }}</div>
+  {% endif %}
+
+  {% if answer %}
+    <h2>Answer</h2>
+    <div class="box">{{ answer }}</div>
+  {% endif %}
+
+  {% if retrieved_chunks %}
+    <h2>Retrieved Chunks</h2>
+    {% for chunk in retrieved_chunks %}
+      <div class="box">{{ chunk }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if doc_text %}
+    <h2>Document Preview</h2>
+    <div class="box">{{ doc_text }}</div>
+  {% endif %}
+</body>
+</html>
